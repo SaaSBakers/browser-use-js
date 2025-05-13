@@ -145,22 +145,9 @@ Initialize the SDK.
 
 **Options:**
 
-* `puppeteerConfig` *(optional)* – Puppeteer launch options ([see docs](https://pptr.dev/api/puppeteer.launchoptions/))
-  * Default configuration:
-    ```js
-    {
-      headless: false,
-      defaultViewport: null,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--start-maximized'
-      ]
-    }
-    ```
 * `gptConfig` *(required)* – OpenAI configuration
   * `apiKey` - Your OpenAI API key
-* `browser` *(optional)* - Existing Puppeteer browser instance
+* `browser` *(required)* - Existing Puppeteer browser instance
 
 ### `browserUseJS.instruction(instructions)`
 
