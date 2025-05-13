@@ -4,7 +4,7 @@
 ![Issues](https://img.shields.io/github/issues/SaaSBakers/browser-use-js)
 
 
-# 🧠 Browser Automation SDK
+# 🧠 Browser Use JS
 
 > A JavaScript/TypeScript SDK for automating browser tasks using [Puppeteer](https://pptr.dev/) and [OpenAI's GPT models](https://platform.openai.com/docs).
 
