@@ -17,7 +17,7 @@
 - 🤖 **GPT Support**: Use GPT for intelligent parsing of actions.
 - 🧑‍💻 **TypeScript Support**: Fully typed for a great dev experience.
 - 🛡️ **Error Handling**: Detailed error reporting for reliable execution.
-- 🔄 **Browser Reuse**: Use existing browser instances or let the SDK manage them.
+- 🔄 **Browser Reuse**: Use existing browser instances.
 
 ---
 
