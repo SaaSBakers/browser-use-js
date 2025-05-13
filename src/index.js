@@ -1,53 +1,44 @@
 /**
- * Browser Automation SDK for performing web automation tasks using Puppeteer and GPT.
- * @module BrowserAutomationSDK
+ * Browser automation SDK with GPT integration
+ * @module BrowserUseJS
  */
 
 const PuppeteerService = require('./lib/puppeteerService');
 
 /**
- * Main SDK class for browser automation.
+ * Main class for browser automation with GPT integration
  */
-class BrowserAutomationSDK {
+class BrowserUseJS {
   /**
-   * Creates an instance of BrowserAutomationSDK.
-   * @param {Object} options - Configuration options.
-   * @param {Object} [options.puppeteerConfig] - Puppeteer launch configuration.
-   * @param {Object} [options.gptConfig] - GPT service configuration (e.g., API key).
-   * @throws {Error} If required options are missing.
+   * Creates an instance of BrowserUseJS.
+   * @param {Object} options - Configuration options
+   * @param {Object} [options.puppeteerConfig={}] - Puppeteer configuration
+   * @param {Object} [options.gptConfig={}] - GPT configuration
    */
-  constructor(options = {}) {
-    this.puppeteerService = new PuppeteerService({
-      puppeteerConfig: options.puppeteerConfig,
-      gptConfig: options.gptConfig,
-    });
+  constructor({ puppeteerConfig = {}, gptConfig = {} } = {}) {
+    this.puppeteerService = new PuppeteerService({ puppeteerConfig, gptConfig });
   }
 
   /**
-   * Starts an automation task.
-   * @param {string} instructions - Automation instructions (e.g., natural language or JSON string).
-   * @returns {Promise<Array<Object>>} Array of results for each action.
-   * @throws {Error} If automation fails or instructions are invalid.
-   */
-  async startAutomation(instructions) {
-    if (!instructions || typeof instructions !== 'string') {
-      throw new Error('Instructions must be a non-empty string');
-    }
-    try {
-      const results = await this.puppeteerService.startAutomation(instructions);
-      return results;
-    } catch (error) {
-      throw new Error(`Automation failed: ${error.message}`);
-    }
-  }
-
-  /**
-   * Closes the Puppeteer browser instance.
-   * @returns {Promise<void>}
+   * Closes the browser and cleans up resources
    */
   async close() {
     await this.puppeteerService.close();
   }
+
+  /**
+   * Executes browser automation based on natural language instructions
+   * @param {string} instructions - Natural language instructions for automation
+   * @returns {Promise<Array<Object>>} Array of action results
+   */
+  async instruction(instructions) {
+    if (!instructions || typeof instructions !== 'string' || !instructions.trim()) {
+      throw new Error('Instructions must be a non-empty string');
+    }
+
+    const results = await this.puppeteerService.instruction(instructions);
+    return results;
+  }
 }
 
-module.exports = BrowserAutomationSDK;
+module.exports = BrowserUseJS;

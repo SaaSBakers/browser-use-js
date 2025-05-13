@@ -33,22 +33,36 @@ npm install browser-use-js
 ### JavaScript Example
 
 ```js
-const BrowserAutomationSDK = require('browser-use-js');
+const BrowserUseJS = require('browser-use-js');
 
 async function main() {
-  const sdk = new BrowserAutomationSDK({
-    puppeteerConfig: { headless: 'new' },
+  const browser = new BrowserUseJS({
+    puppeteerConfig: { 
+      headless: false,
+      defaultViewport: null,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--start-maximized'
+      ]
+    },
     gptConfig: { apiKey: process.env.OPENAI_API_KEY || 'your-gpt-api-key' },
   });
 
   try {
-    const instructions = 'Go to https://example.com, click the login link, type "user" into the username field, and submit the form';
-    const results = await sdk.startAutomation(instructions);
+    const instructions = 'Go to https://google.com and search for "OpenAI"';
+    const results = await browser.instruction(instructions);
     console.log('Results:', results);
+    
+    // Keep the browser open until Ctrl+C is pressed
+    console.log('Browser is open! Press Ctrl+C to close.');
+    process.on('SIGINT', async () => {
+      console.log('Closing browser...');
+      await browser.close();
+      process.exit();
+    });
   } catch (error) {
     console.error('Error:', error.message);
-  } finally {
-    await sdk.close();
   }
 }
 
@@ -58,22 +72,36 @@ main();
 ### TypeScript Example
 
 ```ts
-import { BrowserAutomationSDK } from 'browser-use-js';
+import { BrowserUseJS } from 'browser-use-js';
 
 async function main() {
-  const sdk = new BrowserAutomationSDK({
-    puppeteerConfig: { headless: 'new' },
+  const browser = new BrowserUseJS({
+    puppeteerConfig: { 
+      headless: false,
+      defaultViewport: null,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--start-maximized'
+      ]
+    },
     gptConfig: { apiKey: process.env.OPENAI_API_KEY || 'your-gpt-api-key' },
   });
 
   try {
-    const instructions = 'Go to https://example.com, click the login link, type "user" into the username field, and submit the form';
-    const results = await sdk.startAutomation(instructions);
+    const instructions = 'Go to https://google.com and search for "OpenAI"';
+    const results = await browser.instruction(instructions);
     console.log('Results:', results);
+    
+    // Keep the browser open until Ctrl+C is pressed
+    console.log('Browser is open! Press Ctrl+C to close.');
+    process.on('SIGINT', async () => {
+      console.log('Closing browser...');
+      await browser.close();
+      process.exit();
+    });
   } catch (error) {
     console.error('Error:', error.message);
-  } finally {
-    await sdk.close();
   }
 }
 
@@ -84,24 +112,36 @@ main();
 
 ## 📚 API Reference
 
-### `new BrowserAutomationSDK(options)`
+### `new BrowserUseJS(options)`
 
 Initialize the SDK.
 
 **Options:**
 
 * `puppeteerConfig` *(optional)* – Puppeteer launch options ([see docs](https://pptr.dev/api/puppeteer.launchoptions/))
+  * Default configuration:
+    ```js
+    {
+      headless: false,
+      defaultViewport: null,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--start-maximized'
+      ]
+    }
+    ```
 * `gptConfig` *(required unless using `OPENAI_API_KEY`)* – Example: `{ apiKey: 'your-openai-key' }`
 
 ---
 
-### `sdk.startAutomation(instructions)`
+### `browser.instruction(instructions)`
 
 Executes tasks from natural language instructions.
 
 **Parameters:**
 
-* `instructions` *(string)* – e.g., `"Go to example.com and click the login button"`
+* `instructions` *(string)* – e.g., `"Go to google.com and search for OpenAI"`
 
 **Returns:**
 
@@ -119,7 +159,7 @@ Executes tasks from natural language instructions.
 
 ---
 
-### `sdk.close()`
+### `browser.close()`
 
 Closes the Puppeteer browser session.
 

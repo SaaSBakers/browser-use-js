@@ -18,20 +18,17 @@ puppeteer.use(StealthPlugin());
 
 class PuppeteerService {
     constructor({ puppeteerConfig = {}, gptConfig = {} } = {}) {
+        this.puppeteer = puppeteer;
         this.puppeteerConfig = {
-            headless: 'new',
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--start-maximized'
-            ],
+            headless: false,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
             ...puppeteerConfig,
         };
         this.gptConfig = gptConfig;
         this.browser = null;
     }
 
-    async startAutomation(instructions) {
+    async instruction(instructions) {
         try {
             this.browser = await puppeteer.launch(this.puppeteerConfig);
             const page = await this.browser.newPage();
@@ -47,7 +44,6 @@ class PuppeteerService {
                 results.push(result);
             }
 
-            await this.browser.close();
             this.browser = null;
             return results;
         } catch (error) {
