@@ -1,3 +1,9 @@
+![npm](https://img.shields.io/npm/v/browser-use-js)
+![Build](https://github.com/yourusername/browser-use-js/actions/workflows/ci.yml/badge.svg)
+![License](https://img.shields.io/github/license/yourusername/browser-use-js)
+![Issues](https://img.shields.io/github/issues/yourusername/browser-use-js)
+
+
 # 🧠 Browser Automation SDK
 
 > A JavaScript/TypeScript SDK for automating browser tasks using [Puppeteer](https://pptr.dev/) and [OpenAI's GPT models](https://platform.openai.com/docs).
@@ -179,12 +185,3 @@ This project is licensed under the [ISC License](LICENSE).
 ```
 
 ---
-
-### ✅ Next Suggestions:
-
-- Add a `demo.gif` or screenshot under `![Browser Automation Demo](...)`
-- Create `LICENSE`, `.gitignore`, and `tsconfig.json` if you haven’t
-- Set up badges (build, NPM version, license) using [shields.io](https://shields.io)
-
-Want me to generate a `demo.gif`, badge markup, or GitHub Actions workflow?
-```
