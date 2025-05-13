@@ -31,17 +31,15 @@ npm install browser-use-js
 
 ## 🚀 Usage
 
-### Example with Stealth Mode
+### Basic Example (SDK Manages Browser)
 
 ```js
 const BrowserUseJS = require('browser-use-js');
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
-puppeteer.use(StealthPlugin());
-
-async function main() {
-  // Launch browser separately with stealth mode
+sync function main() {
+  // Launch browser separately
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
@@ -55,12 +53,12 @@ async function main() {
   // Create SDK instance with existing browser
   const browserUseJS = new BrowserUseJS({
     browser,
-    gptConfig: { apiKey: process.env.OPENAI_API_KEY }
+    gptConfig: { apiKey: process.env.OPENAI_API_KEY || 'Open_AI_Key' },
   });
 
   try {
     // Example natural language instructions
-    const instructions = 'Go to https://google.com and search for "OpenAI"';
+    const instructions = 'Go to https://google.com and search for "OpenAI". Click the first link of the search and extract the title of the page.';
     
     // Execute instructions and get results with page
     const { results, page } = await browserUseJS.instruction(instructions);
@@ -85,35 +83,46 @@ async function main() {
 main();
 ```
 
-### Simple Example (SDK Managed)
+### Using Existing Browser Instance
 
 ```js
 const BrowserUseJS = require('browser-use-js');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+puppeteer.use(StealthPlugin());
 
 async function main() {
+  // Launch browser separately
+  const browser = await puppeteer.launch({
+    headless: false,
+    defaultViewport: null,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--start-maximized'
+    ]
+  });
+
+  // Create SDK instance with existing browser
   const browserUseJS = new BrowserUseJS({
-    puppeteerConfig: { 
-      headless: false,
-      defaultViewport: null,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--start-maximized'
-      ]
-    },
+    browser,
     gptConfig: { apiKey: process.env.OPENAI_API_KEY }
   });
 
   try {
+    // Execute instructions and get results with page
     const { results, page } = await browserUseJS.instruction(
       'Go to https://google.com and search for "OpenAI"'
     );
-    console.log('Results:', results);
-    console.log('Page title:', await page.title());
+    
+    // You can now work directly with the page
+    const title = await page.title();
+    console.log('Page title:', title);
     
     // Keep browser open until Ctrl+C
     process.on('SIGINT', async () => {
-      await browserUseJS.close();
+      await browser.close();
       process.exit();
     });
   } catch (error) {
