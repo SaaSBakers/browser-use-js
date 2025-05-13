@@ -183,5 +183,3 @@ This project is licensed under the [ISC License](LICENSE).
 * [OpenAI](https://openai.com/)
 
 ```
-
----
