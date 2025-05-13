@@ -1,7 +1,7 @@
 ![npm](https://img.shields.io/npm/v/browser-use-js)
-![Build](https://github.com/yourusername/browser-use-js/actions/workflows/ci.yml/badge.svg)
-![License](https://img.shields.io/github/license/yourusername/browser-use-js)
-![Issues](https://img.shields.io/github/issues/yourusername/browser-use-js)
+![Build](https://github.com/SaaSBakers/browser-use-js/actions/workflows/ci.yml/badge.svg)
+![License](https://img.shields.io/github/license/SaaSBakers/browser-use-js)
+![Issues](https://img.shields.io/github/issues/SaaSBakers/browser-use-js)
 
 
 # 🧠 Browser Automation SDK
