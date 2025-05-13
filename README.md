@@ -17,42 +17,58 @@
 - 🤖 **GPT Support**: Use GPT for intelligent parsing of actions.
 - 🧑‍💻 **TypeScript Support**: Fully typed for a great dev experience.
 - 🛡️ **Error Handling**: Detailed error reporting for reliable execution.
+- 🔄 **Browser Reuse**: Use existing browser instances or let the SDK manage them.
 
 ---
 
 ## 📦 Installation
 
 ```bash
-npm install browser-use-js
+npm install browser-use-js puppeteer-extra puppeteer-extra-plugin-stealth
 ````
 
 ---
 
 ## 🚀 Usage
 
-### JavaScript Example
+### Example with Stealth Mode
 
 ```js
 const BrowserUseJS = require('browser-use-js');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+puppeteer.use(StealthPlugin());
 
 async function main() {
-  const browser = new BrowserUseJS({
-    puppeteerConfig: { 
-      headless: false,
-      defaultViewport: null,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--start-maximized'
-      ]
-    },
-    gptConfig: { apiKey: process.env.OPENAI_API_KEY || 'your-gpt-api-key' },
+  // Launch browser separately with stealth mode
+  const browser = await puppeteer.launch({
+    headless: false,
+    defaultViewport: null,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--start-maximized'
+    ]
+  });
+
+  // Create SDK instance with existing browser
+  const browserUseJS = new BrowserUseJS({
+    browser,
+    gptConfig: { apiKey: process.env.OPENAI_API_KEY }
   });
 
   try {
+    // Example natural language instructions
     const instructions = 'Go to https://google.com and search for "OpenAI"';
-    const results = await browser.instruction(instructions);
-    console.log('Results:', results);
+    
+    // Execute instructions and get results with page
+    const { results, page } = await browserUseJS.instruction(instructions);
+    console.log('Automation Results:', results);
+    
+    // You can now work directly with the page if needed
+    const title = await page.title();
+    console.log('Current page title:', title);
     
     // Keep the browser open until Ctrl+C is pressed
     console.log('Browser is open! Press Ctrl+C to close.');
@@ -69,13 +85,13 @@ async function main() {
 main();
 ```
 
-### TypeScript Example
+### Simple Example (SDK Managed)
 
-```ts
-import { BrowserUseJS } from 'browser-use-js';
+```js
+const BrowserUseJS = require('browser-use-js');
 
 async function main() {
-  const browser = new BrowserUseJS({
+  const browserUseJS = new BrowserUseJS({
     puppeteerConfig: { 
       headless: false,
       defaultViewport: null,
@@ -85,19 +101,19 @@ async function main() {
         '--start-maximized'
       ]
     },
-    gptConfig: { apiKey: process.env.OPENAI_API_KEY || 'your-gpt-api-key' },
+    gptConfig: { apiKey: process.env.OPENAI_API_KEY }
   });
 
   try {
-    const instructions = 'Go to https://google.com and search for "OpenAI"';
-    const results = await browser.instruction(instructions);
+    const { results, page } = await browserUseJS.instruction(
+      'Go to https://google.com and search for "OpenAI"'
+    );
     console.log('Results:', results);
+    console.log('Page title:', await page.title());
     
-    // Keep the browser open until Ctrl+C is pressed
-    console.log('Browser is open! Press Ctrl+C to close.');
+    // Keep browser open until Ctrl+C
     process.on('SIGINT', async () => {
-      console.log('Closing browser...');
-      await browser.close();
+      await browserUseJS.close();
       process.exit();
     });
   } catch (error) {
@@ -131,44 +147,53 @@ Initialize the SDK.
       ]
     }
     ```
-* `gptConfig` *(required unless using `OPENAI_API_KEY`)* – Example: `{ apiKey: 'your-openai-key' }`
+* `gptConfig` *(required)* – OpenAI configuration
+  * `apiKey` - Your OpenAI API key
+* `browser` *(optional)* - Existing Puppeteer browser instance
 
----
-
-### `browser.instruction(instructions)`
+### `browserUseJS.instruction(instructions)`
 
 Executes tasks from natural language instructions.
 
 **Parameters:**
 
-* `instructions` *(string)* – e.g., `"Go to google.com and search for OpenAI"`
+* `instructions` *(string)* – Natural language instructions (e.g., `"Go to google.com and search for OpenAI"`)
 
 **Returns:**
 
-* `Promise<ActionResult[]>` – Array of task results:
-
+* `Promise<Object>` with:
+  * `results` - Array of action results
+  * `page` - Puppeteer Page instance used for automation
   ```ts
-  type ActionResult = {
+  type Result = {
     success: boolean;
     action: string;
     selector?: string;
     message?: string;
     url?: string;
+    data?: any;
+    error?: string;
   }
   ```
 
----
+### `browserUseJS.setBrowser(browser)`
 
-### `browser.close()`
+Set an existing Puppeteer browser instance.
 
-Closes the Puppeteer browser session.
+**Parameters:**
+
+* `browser` *(Object)* - Puppeteer Browser instance
+
+### `browserUseJS.close()`
+
+Closes the browser session if SDK is managing it.
 
 ---
 
 ## 🔐 Environment Variables
 
 * `OPENAI_API_KEY`: Your OpenAI API key
-  (or pass it via `gptConfig.apiKey`)
+  (or pass via `gptConfig.apiKey`)
 
 ---
 

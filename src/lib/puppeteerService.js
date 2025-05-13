@@ -28,29 +28,55 @@ class PuppeteerService {
         this.browser = null;
     }
 
+    /**
+     * Set an existing browser instance
+     * @param {Object} browser - Puppeteer Browser instance
+     */
+    setBrowser(browser) {
+        this.browser = browser;
+    }
+
+    /**
+     * Get the current active page or create a new one
+     * @returns {Promise<Object>} Puppeteer Page instance
+     */
+    async getActivePage() {
+        if (!this.browser) {
+            throw new Error('Browser instance not set. Call setBrowser() first.');
+        }
+
+        const pages = await this.browser.pages();
+        return pages[pages.length - 1] || await this.browser.newPage();
+    }
+
     async instruction(instructions) {
         try {
-            this.browser = await puppeteer.launch(this.puppeteerConfig);
-            const page = await this.browser.newPage();
+            console.log('Starting automation with instructions:', instructions);
+            const page = await this.getActivePage();
             await page.setViewport({ width: 1920, height: 1080 });
 
             const results = [];
+            console.log('Refining instructions...');
             const refinedSteps = await refineInstruction(instructions, this.gptConfig);
+            console.log('Refined steps:', refinedSteps);
 
             for (const step of refinedSteps) {
+                console.log('\nExecuting step:', step);
                 const dom = await extractHybridActionableElements(page);
+                console.log('Extracted DOM elements, getting GPT action...');
                 const gptAction = await getLLMElementSelector(step, dom, this.gptConfig);
+                console.log('GPT suggested action:', gptAction);
                 const result = await this.performAction(page, gptAction);
+                console.log('Action result:', result);
                 results.push(result);
             }
 
-            this.browser = null;
-            return results;
+            return {
+                results,
+                page
+            };
         } catch (error) {
-            if (this.browser) {
-                await this.browser.close();
-                this.browser = null;
-            }
+            console.error('Automation error:', error);
             throw new Error(`Automation failed: ${error.message}`);
         }
     }
@@ -77,6 +103,7 @@ class PuppeteerService {
         }
 
         try {
+            console.log(`Performing ${action} with details:`, details);
             let result;
             switch (action) {
                 case 'type':
@@ -109,6 +136,7 @@ class PuppeteerService {
                 error: result.error || undefined,
             };
         } catch (error) {
+            console.error(`Action failed:`, error);
             return { success: false, action, message: `Failed to perform ${action}: ${error.message}`, error: error.message };
         }
     }

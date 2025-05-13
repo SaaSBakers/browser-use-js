@@ -14,9 +14,21 @@ class BrowserUseJS {
    * @param {Object} options - Configuration options
    * @param {Object} [options.puppeteerConfig={}] - Puppeteer configuration
    * @param {Object} [options.gptConfig={}] - GPT configuration
+   * @param {Object} [options.browser] - Existing Puppeteer browser instance
    */
-  constructor({ puppeteerConfig = {}, gptConfig = {} } = {}) {
+  constructor({ puppeteerConfig = {}, gptConfig = {}, browser = null } = {}) {
     this.puppeteerService = new PuppeteerService({ puppeteerConfig, gptConfig });
+    if (browser) {
+      this.puppeteerService.setBrowser(browser);
+    }
+  }
+
+  /**
+   * Set an existing browser instance
+   * @param {Object} browser - Puppeteer Browser instance
+   */
+  setBrowser(browser) {
+    this.puppeteerService.setBrowser(browser);
   }
 
   /**
@@ -29,15 +41,14 @@ class BrowserUseJS {
   /**
    * Executes browser automation based on natural language instructions
    * @param {string} instructions - Natural language instructions for automation
-   * @returns {Promise<Array<Object>>} Array of action results
+   * @returns {Promise<Object>} Object containing results array and active page
    */
   async instruction(instructions) {
     if (!instructions || typeof instructions !== 'string' || !instructions.trim()) {
       throw new Error('Instructions must be a non-empty string');
     }
 
-    const results = await this.puppeteerService.instruction(instructions);
-    return results;
+    return await this.puppeteerService.instruction(instructions);
   }
 }
 
