@@ -8,8 +8,6 @@
 
 > A JavaScript/TypeScript SDK for automating browser tasks using [Puppeteer](https://pptr.dev/) and [OpenAI's GPT models](https://platform.openai.com/docs).
 
-![Browser Automation Demo](https://yourdomain.com/demo.gif) <!-- Replace with your demo image or GIF -->
-
 ---
 
 ## ✨ Features
