@@ -11,7 +11,7 @@ async function main() {
         '--start-maximized'
       ]
     },
-    gptConfig: { apiKey: process.env.OPENAI_API_KEY || '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' },
+    gptConfig: { apiKey: process.env.OPENAI_API_KEY || 'Open_AI_Key' },
   });
 
   try {
