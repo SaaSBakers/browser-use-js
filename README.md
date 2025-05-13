@@ -38,6 +38,8 @@ const BrowserUseJS = require('browser-use-js');
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
+puppeteer.use(StealthPlugin());
+
 sync function main() {
   // Launch browser separately
   const browser = await puppeteer.launch({
