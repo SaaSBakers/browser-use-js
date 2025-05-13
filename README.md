@@ -181,5 +181,3 @@ This project is licensed under the [ISC License](LICENSE).
 
 * [Puppeteer](https://github.com/puppeteer/puppeteer)
 * [OpenAI](https://openai.com/)
-
-```
