@@ -138,7 +138,7 @@ Closes the Puppeteer browser session.
 ### Setup
 
 ```bash
-git clone https://github.com/yourusername/browser-use-js.git
+git clone https://github.com/SaaSBakers/browser-use-js.git
 cd browser-use-js
 npm install
 ```
@@ -159,9 +159,9 @@ npm run build
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please open an [issue](https://github.com/yourusername/browser-use-js/issues) or submit a [pull request](https://github.com/yourusername/browser-use-js/pulls).
+Contributions are welcome! Please open an [issue](https://github.com/SaaSBakers/browser-use-js/issues) or submit a [pull request](https://github.com/SaaSBakers/browser-use-js/pulls).
 
-Join the conversation in our [GitHub Discussions](https://github.com/yourusername/browser-use-js/discussions)! 💬
+Join the conversation in our [GitHub Discussions](https://github.com/SaaSBakers/browser-use-js/discussions)! 💬
 
 ---
 
