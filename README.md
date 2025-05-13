@@ -1,19 +1,34 @@
-Browser Automation SDK
-A JavaScript/TypeScript SDK for automating browser tasks using Puppeteer and OpenAI's GPT models. This SDK enables natural language-driven browser automation, making it easy to navigate websites, interact with elements, and perform complex workflows.
-Features
+# 🧠 Browser Automation SDK
 
-Natural Language Instructions: Define automation tasks using plain English.
-Puppeteer Integration: Leverage Puppeteer's robust browser automation capabilities.
-OpenAI GPT Support: Utilize GPT for intelligent action parsing and execution.
-TypeScript Support: Fully typed for enhanced developer experience.
-Error Handling: Comprehensive error reporting for reliable automation.
+> A JavaScript/TypeScript SDK for automating browser tasks using [Puppeteer](https://pptr.dev/) and [OpenAI's GPT models](https://platform.openai.com/docs).
 
-Installation
-Install the SDK using npm:
+![Browser Automation Demo](https://yourdomain.com/demo.gif) <!-- Replace with your demo image or GIF -->
+
+---
+
+## ✨ Features
+
+- 🗣️ **Natural Language Instructions**: Define automation tasks using plain English.
+- 🧭 **Puppeteer Integration**: Leverage Puppeteer's robust browser automation capabilities.
+- 🤖 **GPT Support**: Use GPT for intelligent parsing of actions.
+- 🧑‍💻 **TypeScript Support**: Fully typed for a great dev experience.
+- 🛡️ **Error Handling**: Detailed error reporting for reliable execution.
+
+---
+
+## 📦 Installation
+
+```bash
 npm install browser-use-js
+````
 
-Usage
-JavaScript Example
+---
+
+## 🚀 Usage
+
+### JavaScript Example
+
+```js
 const BrowserAutomationSDK = require('browser-use-js');
 
 async function main() {
@@ -26,13 +41,6 @@ async function main() {
     const instructions = 'Go to https://example.com, click the login link, type "user" into the username field, and submit the form';
     const results = await sdk.startAutomation(instructions);
     console.log('Results:', results);
-    // Example output:
-    // [
-    //   { success: true, action: 'navigate', url: 'https://example.com' },
-    //   { success: true, action: 'click', selector: 'a[href="/login"]' },
-    //   { success: true, action: 'type', selector: 'input[name="username"]', text: 'user' },
-    //   { success: true, action: 'submit', selector: 'button[type="submit"]', message: 'Form submitted' }
-    // ]
   } catch (error) {
     console.error('Error:', error.message);
   } finally {
@@ -41,8 +49,11 @@ async function main() {
 }
 
 main();
+```
 
-TypeScript Example
+### TypeScript Example
+
+```ts
 import { BrowserAutomationSDK } from 'browser-use-js';
 
 async function main() {
@@ -63,61 +74,117 @@ async function main() {
 }
 
 main();
+```
 
-API Reference
-new BrowserAutomationSDK(options)
-Initializes a new instance of the SDK.
+---
 
-options:
-puppeteerConfig (optional): Puppeteer launch configuration (e.g., { headless: 'new' }). See Puppeteer documentation for details.
-gptConfig: OpenAI configuration (e.g., { apiKey: 'your-key' }). Required unless OPENAI_API_KEY is set.
+## 📚 API Reference
 
+### `new BrowserAutomationSDK(options)`
 
+Initialize the SDK.
 
-sdk.startAutomation(instructions)
-Executes automation tasks based on natural language instructions.
+**Options:**
 
-instructions: A string describing the automation tasks (e.g., "Go to example.com and click the login button").
-Returns: A promise resolving to an array of action results (e.g., { success: boolean, action: string, ... }).
+* `puppeteerConfig` *(optional)* – Puppeteer launch options ([see docs](https://pptr.dev/api/puppeteer.launchoptions/))
+* `gptConfig` *(required unless using `OPENAI_API_KEY`)* – Example: `{ apiKey: 'your-openai-key' }`
 
-sdk.close()
-Closes the Puppeteer browser instance.
+---
 
-Returns: A promise that resolves when the browser is closed.
+### `sdk.startAutomation(instructions)`
 
-Environment Variables
+Executes tasks from natural language instructions.
 
-OPENAI_API_KEY: Your OpenAI API key. If not set, provide the key via gptConfig.apiKey.
+**Parameters:**
 
-Development
-Prerequisites
+* `instructions` *(string)* – e.g., `"Go to example.com and click the login button"`
 
-Node.js (v16 or higher)
-npm (v8 or higher)
+**Returns:**
 
-Setup
+* `Promise<ActionResult[]>` – Array of task results:
 
-Clone the repository:
+  ```ts
+  type ActionResult = {
+    success: boolean;
+    action: string;
+    selector?: string;
+    message?: string;
+    url?: string;
+  }
+  ```
 
+---
+
+### `sdk.close()`
+
+Closes the Puppeteer browser session.
+
+---
+
+## 🔐 Environment Variables
+
+* `OPENAI_API_KEY`: Your OpenAI API key
+  (or pass it via `gptConfig.apiKey`)
+
+---
+
+## 🛠 Development
+
+### Prerequisites
+
+* [Node.js](https://nodejs.org/) (v16+)
+* npm (v8+)
+
+### Setup
+
+```bash
 git clone https://github.com/yourusername/browser-use-js.git
 cd browser-use-js
-
-
-Install dependencies:
-
 npm install
+```
 
+### Run Tests
 
-Run tests:
-
+```bash
 npm test
+```
 
+### Build (TypeScript)
 
-Build TypeScript declarations:
-
+```bash
 npm run build
+```
 
-Contributing
-Contributions are welcome! Please open an issue or submit a pull request on GitHub.
-License
-This project is licensed under the ISC License.
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an [issue](https://github.com/yourusername/browser-use-js/issues) or submit a [pull request](https://github.com/yourusername/browser-use-js/pulls).
+
+Join the conversation in our [GitHub Discussions](https://github.com/yourusername/browser-use-js/discussions)! 💬
+
+---
+
+## 📄 License
+
+This project is licensed under the [ISC License](LICENSE).
+
+---
+
+## 🙏 Acknowledgments
+
+* [Puppeteer](https://github.com/puppeteer/puppeteer)
+* [OpenAI](https://openai.com/)
+
+```
+
+---
+
+### ✅ Next Suggestions:
+
+- Add a `demo.gif` or screenshot under `![Browser Automation Demo](...)`
+- Create `LICENSE`, `.gitignore`, and `tsconfig.json` if you haven’t
+- Set up badges (build, NPM version, license) using [shields.io](https://shields.io)
+
+Want me to generate a `demo.gif`, badge markup, or GitHub Actions workflow?
+```
