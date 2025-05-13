@@ -24,7 +24,7 @@
 ## 📦 Installation
 
 ```bash
-npm install browser-use-js puppeteer-extra puppeteer-extra-plugin-stealth
+npm install browser-use-js
 ````
 
 ---
