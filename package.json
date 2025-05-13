@@ -1,0 +1,29 @@
+{
+    "name": "browser-use-js",
+    "version": "1.0.0",
+    "description": "SDK for browser automation using Puppeteer and GPT",
+    "main": "src/index.js",
+    "types": "src/index.d.ts",
+    "scripts": {
+      "test": "jest",
+      "build": "tsc --build",
+      "prepublishOnly": "npm test && npm run build"
+    },
+    "keywords": ["browser", "automation", "puppeteer", "gpt", "openai", "sdk"],
+    "author": "Your Name",
+    "license": "ISC",
+    "dependencies": {
+      "axios": "^1.8.4",
+      "puppeteer": "^24.7.1",
+      "puppeteer-extra": "^3.3.6",
+      "puppeteer-extra-plugin-stealth": "^2.11.2"
+    },
+    "devDependencies": {
+      "jest": "^29.7.0",
+      "typescript": "^5.5.4"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/yourusername/browser-automation-sdk.git"
+    }
+  }
