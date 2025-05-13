@@ -24,7 +24,7 @@ describe('BrowserAutomationSDK', () => {
 
   test('should throw error for missing GPT API key', async () => {
     const badSdk = new BrowserAutomationSDK({});
-    await expect(badSdk.startAutomation('Go to example.com')).rejects.toThrow('OpenAI API key is required');
+    await expect(badSdk.startAutomation('Go to google.com')).rejects.toThrow('OpenAI API key is required');
   });
 
   test('should process navigation and click with mock DOM', async () => {
@@ -36,7 +36,7 @@ describe('BrowserAutomationSDK', () => {
             {
               message: {
                 content: JSON.stringify([
-                  'Go to https://example.com',
+                  'Go to https://google.com',
                   'Click the first link',
                 ]),
               },
@@ -47,7 +47,7 @@ describe('BrowserAutomationSDK', () => {
       .mockResolvedValueOnce({
         data: {
           choices: [
-            { message: { content: JSON.stringify({ action: 'navigate', details: { url: 'https://example.com' } }) } },
+            { message: { content: JSON.stringify({ action: 'navigate', details: { url: 'https://google.com' } }) } },
           ],
         },
       })
@@ -59,9 +59,9 @@ describe('BrowserAutomationSDK', () => {
         },
       });
 
-    const results = await sdk.startAutomation('Go to https://example.com and click a link');
+    const results = await sdk.startAutomation('Go to https://google.com and click a link');
     expect(results).toBeInstanceOf(Array);
-    expect(results[0]).toMatchObject({ success: true, action: 'navigate', url: 'https://example.com' });
+    expect(results[0]).toMatchObject({ success: true, action: 'navigate', url: 'https://google.com' });
     expect(results[1]).toMatchObject({ success: true, action: 'click', selector: 'a' });
   });
 });
