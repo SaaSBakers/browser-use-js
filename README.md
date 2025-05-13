@@ -75,8 +75,8 @@ OPENAI_API_KEY: Your OpenAI API key (optional, can be passed via gptConfig.apiKe
 Development
 
 Clone the repository:
-git clone https://github.com/yourusername/browser-automation-sdk.git
-cd browser-automation-sdk
+git clone https://github.com/yourusername/browser-use-js.git
+cd browser-use-js
 
 
 Install dependencies:
